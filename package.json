@@ -33,7 +33,7 @@
   ],
   "scripts": {
     "start": "ice-pkg start",
-    "build": "npm run doc && ice-pkg build",
+    "build": "ice-pkg build && npm run doc && ice-pkg build",
     "prepublishOnly": "npm run build",
     "eslint": "eslint --cache --ext .js,.jsx,.ts,.tsx ./",
     "eslint:fix": "npm run eslint -- --fix",
