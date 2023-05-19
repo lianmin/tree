@@ -5,6 +5,7 @@ node_modules/
 
 # production
 .docusaurus/
+coverage/
 build/
 dist/
 tmp/

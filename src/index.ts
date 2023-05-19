@@ -1,5 +1,5 @@
-import DataSource from './data-source';
-import Node from './node';
+import Tree from './tree';
 
-export type { IDataSource, IDataItem } from './typings';
-export { DataSource as default, Node };
+export type { TreeData, TreeDataItem } from './typings';
+export { default as TreeNode } from './treeNode';
+export { Tree as default };

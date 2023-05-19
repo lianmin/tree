@@ -1,9 +1,15 @@
 /// <reference types="@ice/pkg/types" />
 
-export interface IDataItem {
+/**
+ * @interface
+ */
+export interface TreeDataItem {
   value: any;
-  children?: IDataItem[];
+  children?: TreeDataItem[];
   [key: string]: any;
 }
 
-export type IDataSource = IDataItem[];
+/**
+ * @interface
+ */
+export type TreeData = TreeDataItem[];

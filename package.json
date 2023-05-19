@@ -6,7 +6,8 @@
     "esm",
     "es2017",
     "cjs",
-    "dist"
+    "dist",
+    "build"
   ],
   "main": "esm/index.js",
   "module": "esm/index.js",
@@ -32,12 +33,14 @@
   ],
   "scripts": {
     "start": "ice-pkg start",
-    "build": "ice-pkg build",
+    "build": "npm run doc && ice-pkg build",
     "prepublishOnly": "npm run build",
     "eslint": "eslint --cache --ext .js,.jsx,.ts,.tsx ./",
     "eslint:fix": "npm run eslint -- --fix",
     "stylelint": "stylelint \"**/*.{css,scss,less}\"",
-    "lint": "npm run eslint && npm run stylelint"
+    "lint": "npm run eslint && npm run stylelint",
+    "test": "jest",
+    "doc": "api-extractor run --local "
   },
   "keywords": [
     "ice",
@@ -45,19 +48,30 @@
     "component"
   ],
   "dependencies": {
-    "@swc/helpers": "^0.5.1",
-    "@ice/jsx-runtime": "^0.2.0"
+    "@ice/jsx-runtime": "^0.2.0",
+    "@swc/helpers": "^0.5.1"
   },
   "devDependencies": {
+    "@alifd/layout": "^2.0.12",
+    "@alifd/next": "^1.26.18",
     "@applint/spec": "^1.2.3",
     "@ice/pkg": "^1.0.0",
     "@ice/pkg-plugin-docusaurus": "^1.0.0",
-    "eslint": "8.0.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "@ice/remark-react-docgen-docusaurus": "^1.0.1",
+    "@microsoft/api-extractor": "^7.34.9",
+    "@types/jest": "^29.5.1",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
-    "stylelint": "^15.0.0"
+    "eslint": "8.0.0",
+    "jest": "^29.5.0",
+    "jest-html-reporter": "^3.9.0",
+    "moment": "^2.29.4",
+    "prettier": "^2.8.8",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "stylelint": "^15.0.0",
+    "ts-jest": "^29.1.0",
+    "use-force-update": "^1.0.11"
   },
   "peerDependencies": {
     "react": "^17 || ^18"
