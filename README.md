@@ -1,6 +1,10 @@
 # @xtree/tree
 
-JS 下的基础树操作，用于快速处理树形数据的解析、新增、移除和查找等操作。
+![](https://img.shields.io/npm/v/@xtree/tree)
+![](https://img.shields.io/codecov/c/github/lianmin/tree)
+![](https://img.shields.io/github/license/lianmin/tree)
+
+`JavaScript` 下对于树的基本操作，用于便捷处理树形数据的解析、新增、移除和查找等操作
 
 ## 安装
 

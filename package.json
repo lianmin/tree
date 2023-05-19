@@ -1,7 +1,7 @@
 {
   "name": "@xtree/tree",
-  "version": "0.1.0",
-  "description": "组件功能描述",
+  "version": "0.1.1",
+  "description": "JavaScript 下对于树的基本操作，用于便捷处理树形数据的解析、新增、移除和查找等操作",
   "files": [
     "esm",
     "es2017",
@@ -35,17 +35,14 @@
     "start": "ice-pkg start",
     "build": "ice-pkg build && npm run doc && ice-pkg build",
     "prepublishOnly": "npm run build",
-    "eslint": "eslint --cache --ext .js,.jsx,.ts,.tsx ./",
-    "eslint:fix": "npm run eslint -- --fix",
-    "stylelint": "stylelint \"**/*.{css,scss,less}\"",
-    "lint": "npm run eslint && npm run stylelint",
     "test": "jest",
     "doc": "api-extractor run --local "
   },
   "keywords": [
-    "ice",
     "react",
-    "component"
+    "tree",
+    "data-source",
+    "tree-parse"
   ],
   "dependencies": {
     "@ice/jsx-runtime": "^0.2.0",
