@@ -6,7 +6,7 @@ export default defineConfig({
     [
       '@ice/pkg-plugin-docusaurus',
       {
-        baseUrl: '/@xtree/tree/build/index.html/',
+        baseUrl: '/@xtree/tree/build/',
       },
     ],
   ],
