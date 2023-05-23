@@ -8,12 +8,4 @@ export default defineConfig({
   bundle: {
     formats: ['cjs', 'esm', 'es2017'],
   },
-  plugins: [
-    [
-      '@ice/pkg-plugin-docusaurus',
-      {
-        baseUrl: '/@xtree/tree/build/',
-      },
-    ],
-  ],
 });

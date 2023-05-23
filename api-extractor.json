@@ -1,29 +1,22 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
   "mainEntryPointFilePath": "<projectFolder>/es2017/index.d.ts",
-
   "bundledPackages": [],
-
   "apiReport": {
     "enabled": true,
-    "reportFileName": "api.md",
-    "reportFolder": "./docs",
-    "reportTempFolder": "./.docusaurus"
+    "reportFileName": "API.md",
+    "reportFolder": "./"
   },
-
   "docModel": {
     "enabled": false
   },
-
   "dtsRollup": {
     "enabled": false,
     "omitTrimmingComments": true
   },
-
   "tsdocMetadata": {
     "enabled": false
   },
-
   "messages": {
     "compilerMessageReporting": {
       "default": {
