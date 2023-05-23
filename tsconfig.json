@@ -2,15 +2,18 @@
   "compilerOptions": {
     "module": "ESNext",
     "target": "ESNext",
-    "jsx": "react",
+    "jsx": "preserve",
     "moduleResolution": "node",
-    "lib": ["ES2017", "DOM", "DOM.Iterable"],
+    "lib": ["ES2017"],
     "allowJs": true,
     "noUnusedLocals": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "declaration": true,
+    "sourceMap": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "lib", "coverage"]
