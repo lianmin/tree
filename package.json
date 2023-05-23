@@ -1,6 +1,6 @@
 {
   "name": "@xtree/tree",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "JavaScript 下对于树的基本操作，用于便捷处理树形数据的解析、新增、移除和查找等操作",
   "files": [
     "esm",
@@ -25,16 +25,11 @@
     },
     "./*": "./*"
   },
-  "sideEffects": [
-    "dist/*",
-    "*.scss",
-    "*.less",
-    "*.css"
-  ],
+  "sideEffects": false,
   "scripts": {
     "start": "ice-pkg start",
-    "build": "ice-pkg build && npm run doc && ice-pkg build",
-    "prepublishOnly": "npm version patch --no-git-tag-version && npm run build",
+    "build": "ice-pkg build",
+    "prepublishOnly": "npm version patch && npm run build",
     "test": "jest",
     "doc": "api-extractor run --local "
   },
