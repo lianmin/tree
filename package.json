@@ -29,7 +29,7 @@
   "scripts": {
     "start": "ice-pkg start",
     "build": "ice-pkg build",
-    "prepublishOnly": "npm version patch && npm run build",
+    "prepublishOnly": "npm version patch --no-git-tag-version && npm run build",
     "test": "jest",
     "doc": "api-extractor run --local "
   },
