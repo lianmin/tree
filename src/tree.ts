@@ -1,4 +1,4 @@
-import TreeNode from './treeNode';
+import TreeNode from './tree-node';
 import { TreeData, TreeDataItem } from './typings';
 
 /**

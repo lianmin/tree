@@ -1,5 +1,5 @@
 import Tree from './tree';
+import TreeNode from './tree-node';
 
 export type { TreeData, TreeDataItem } from './typings';
-export { default as TreeNode } from './treeNode';
-export { Tree as default };
+export { Tree as default, TreeNode };

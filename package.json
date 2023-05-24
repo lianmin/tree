@@ -1,6 +1,6 @@
 {
   "name": "@xtree/tree",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "description": "JavaScript 下对于树的基本操作，用于便捷处理树形数据的解析、新增、移除和查找等操作",
   "files": [
     "esm",
@@ -13,18 +13,7 @@
   "module": "./esm/index.js",
   "types": "./esm/index.d.ts",
   "exports": {
-    ".": {
-      "import": "./es2017/index.js",
-      "require": "./dist/index.js",
-      "es2017": {
-        "types": "./esm/index.d.ts",
-        "default": "./esm/index.js"
-      },
-      "default": {
-        "types": "./esm/index.d.ts",
-        "default": "./esm/index.js"
-      }
-    },
+    ".": "./esm/index.js",
     "./*": "./*"
   },
   "scripts": {
