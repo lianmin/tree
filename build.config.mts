@@ -2,6 +2,6 @@ import { defineConfig } from '@ice/pkg';
 
 export default defineConfig({
   transform: {
-    formats: ['es2017', 'esm'],
+    formats: ['es2017', 'esm', 'cjs'],
   },
 });
