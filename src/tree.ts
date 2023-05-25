@@ -350,7 +350,7 @@ class Tree {
 
     let tmp = node.right;
 
-    while (tmp?.right && tmp.right.value !== node.value) {
+    while (tmp && tmp.value !== node.value) {
       rs.push(tmp);
       tmp = tmp.right;
     }

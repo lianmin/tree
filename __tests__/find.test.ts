@@ -1,6 +1,7 @@
 import Tree, { TreeNode } from '../src/index';
 import areas from './data/areas';
 import treeData from './data/tree-data';
+import { expect } from '@jest/globals';
 
 describe('查找与过滤', () => {
   const tree = new Tree(areas);
@@ -101,7 +102,6 @@ describe('查找与过滤', () => {
 
   //  左右兄弟节点 & node.isRoot node.isLeaf 的判断
   // tree.length, tree.size  tree.depth tree.height;
-
   test('兄弟节点', () => {
     // 浙江省宁波市
     const node = tree.find('330200');
@@ -119,6 +119,7 @@ describe('查找与过滤', () => {
       '衢州市',
       '舟山市',
       '台州市',
+      '丽水市',
     ];
 
     expect(tree.siblings(undefined).length).toBe(0);
