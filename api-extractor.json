@@ -5,7 +5,8 @@
   "apiReport": {
     "enabled": true,
     "reportFileName": "API.md",
-    "reportFolder": "./"
+    "reportFolder": "./",
+    "reportTempFolder": "node_modules"
   },
   "docModel": {
     "enabled": false

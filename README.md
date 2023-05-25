@@ -49,6 +49,7 @@ tree.insertChild(new TreeNode('2', { label: '2' }), tree.root);
 ## API
 
 ```ts
+// @public
 class Tree {
   constructor(initData?: TreeData);
   children(node: TreeNode): TreeNode[];
@@ -85,6 +86,7 @@ export interface TreeDataItem {
   value: any;
 }
 
+// @public
 export class TreeNode {
   constructor(value: any, originalData?: any);
   get isLeaf(): boolean;
@@ -200,14 +202,6 @@ tree.parents(node);
 
 获取指定 node 的兄弟节点，pos 可以指定为 `左兄弟节点|右兄弟节点|所有兄弟节点`
 
-#### leftSiblings(node)
-
-等价于 `tree.siblings(node, 'left')`
-
-#### rightSiblings(node)
-
-等价于 `tree.siblings(node, 'right')`
-
 #### insertBefore(node, targetNode)
 
 在 `targetNode` 之前插入新 `node` 节点
@@ -216,10 +210,10 @@ tree.parents(node);
 
 在 `targetNode` 之后插入新 `node` 节点
 
-#### insertChild(node, parentNode, tailing=true)
+#### insertChild(node, parentNode, pos)
 
 为 parentNode 插入子节点 node
-tailing=true 表示插入为最后一个子节点，否则出入到第一个子节点
+`pos='leading'|'trailing'` 表示插入为最后一个子节点，否则出入到第一个子节点
 
 #### remove(node)
 
