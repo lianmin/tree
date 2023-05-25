@@ -35,6 +35,10 @@ class Tree {
    *
    * new Tree();
    * new Tree([]);
+   * new Tree({
+   *    value: '1',
+   *    children: []
+   * })
    * new Tree([{
    *  value:'1',
    *  children:[{
@@ -158,9 +162,7 @@ class Tree {
   private bfs(node: TreeNode, callback: TraverseFn) {
     const queue = [this.root.left];
     let stop = false;
-    const cancel = () => {
-      stop = true;
-    };
+    const cancel = () => (stop = true);
 
     while (!stop && queue.length) {
       const node = queue.shift();
@@ -278,10 +280,9 @@ class Tree {
    * 获取父级节点数组
    * @param node
    */
-  parents(node?: TreeNode): TreeNode[] {
-    if (!node) {
-      return [];
-    }
+  parents(node: TreeNode): TreeNode[] {
+    if (!node || node.isRoot) return [];
+
     const parents = [];
     let n = node;
 
@@ -289,6 +290,7 @@ class Tree {
       parents.push(n.parent);
       n = n.parent;
     }
+
     return parents;
   }
 
@@ -297,10 +299,8 @@ class Tree {
    * @param node 节点
    * @param pos 指定兄弟节点的位置，`左兄弟节点|右兄弟节点|所有兄弟节点`
    */
-  siblings(node?: TreeNode, pos?: 'left' | 'right' | 'all'): TreeNode[] {
-    if (!node) {
-      return [];
-    }
+  siblings(node: TreeNode, pos?: 'left' | 'right' | 'all'): TreeNode[] {
+    if (!node) return [];
 
     switch (pos) {
       case 'left':
@@ -316,10 +316,9 @@ class Tree {
    * 获取左兄弟节点, 等价于 `this.siblings(node,'left')`
    * @param node 节点
    */
-  leftSiblings(node?: TreeNode): TreeNode[] {
-    if (!node) {
-      return [];
-    }
+  private leftSiblings(node: TreeNode): TreeNode[] {
+    if (!node || !node.parent) return [];
+
     const { parent } = node;
     const rs: TreeNode[] = [];
 
@@ -330,6 +329,7 @@ class Tree {
     }
 
     let tmp = parent.left;
+
     while (tmp.right && tmp.right.value !== node.value) {
       rs.push(tmp.right);
       tmp = tmp.right;
@@ -341,14 +341,16 @@ class Tree {
    * 获取指定节点的右兄弟节点，等价于 `this.siblings(node,'right')`
    * @param node 节点
    */
-  rightSiblings(node: TreeNode): TreeNode[] {
+  private rightSiblings(node: TreeNode): TreeNode[] {
     if (!node) {
       return [];
     }
+
     const rs = [];
+
     let tmp = node.right;
 
-    while (tmp.right && tmp.right.value !== node.value) {
+    while (tmp?.right && tmp.right.value !== node.value) {
       rs.push(tmp);
       tmp = tmp.right;
     }
@@ -404,7 +406,7 @@ class Tree {
    *
    * @param node 新节点
    * @param parentNode 父节点
-   * @param tailing 从尾部插入,设置为 `false` 时，插入为第一个子节点。 默认为 `true`
+   * @param pos 默认出入位置，默认为从头部插入，如果要从尾部插入，可以设置 pos='trailing'
    *
    * @example
    *
@@ -412,7 +414,7 @@ class Tree {
    * tree.insertChild(node, parentNode, false);
    *
    */
-  insertChild(node: TreeNode, parentNode?: TreeNode, tailing = true) {
+  insertChild(node: TreeNode, parentNode: TreeNode, pos?: 'leading' | 'trailing') {
     const pNode = parentNode || this.root;
 
     if (node) {
@@ -420,7 +422,7 @@ class Tree {
       const children = this.children(pNode);
       node.parent = parentNode;
 
-      if (tailing && children.length) {
+      if (pos === 'trailing' && children.length) {
         this.insertAfter(node, children[children.length - 1]);
       } else {
         pNode.left = node;
@@ -471,8 +473,7 @@ class Tree {
    * 清空树中的所有节点 (root 除外)
    */
   clear() {
-    const root = this.root;
-    root.left = null;
+    this.root.left = null;
   }
 
   /**
@@ -501,15 +502,14 @@ class Tree {
    * const arr = tree.flatten(tree.root);
    * // result: [{value:1, parentValue: undefined},{value: '1-1', parentValue:'1'},{value:'1-1-1', parentValue:'1-1}]
    */
-  flatten(node?: TreeNode, parentPropName = 'parentValue') {
+  flatten(node?: TreeNode, parentPropName: string = 'parentValue') {
     const rs: any = [];
-    const n = node || this.root.left;
 
-    this.bfs(n, (node) => {
+    this.bfs(node || this.root, (_node) => {
       rs.push({
-        ...node.originalData,
-        value: node?.value || undefined,
-        [parentPropName]: node?.parent?.value || undefined,
+        ..._node.originalData,
+        value: _node?.value || undefined,
+        [parentPropName]: _node?.parent?.value || undefined,
       });
     });
 
@@ -545,10 +545,6 @@ class Tree {
    * @private
    */
   private _toData(node: TreeNode) {
-    if (!node) {
-      return [];
-    }
-
     const { children, ...otherData } = node.originalData;
 
     const rs: any = {

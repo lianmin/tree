@@ -9,7 +9,7 @@ describe('修改树', () => {
     // 杭州市
     const node = tree.find('330100');
     const oldChildren = tree.children(node);
-    tree.insertChild(new TreeNode('-1', { label: '新城市' }), node, false);
+    tree.insertChild(new TreeNode('-1', { label: '新城市' }), node, 'leading');
     const newChildren = tree.children(node);
 
     expect(newChildren[0].originalData.label).toBe('新城市');
@@ -19,7 +19,7 @@ describe('修改树', () => {
   test('插入新孩子节点在后', () => {
     // 杭州市
     const node = tree.find('330100');
-    tree.insertChild(new TreeNode('-2', { label: '新城市2' }), node, true);
+    tree.insertChild(new TreeNode('-2', { label: '新城市2' }), node, 'trailing');
     const newChildren = tree.children(node);
 
     expect(newChildren[newChildren.length - 1].originalData.label).toBe('新城市2');

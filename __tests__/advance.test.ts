@@ -65,7 +65,7 @@ describe('高阶用法', () => {
 
     expect(tree1.size()).toBe(0);
 
-    tree1.insertChild(new TreeNode('nodeValue', {}));
+    tree1.insertChild(new TreeNode('nodeValue', {}), tree1.root);
 
     expect(tree1.size()).toBe(1);
     expect(new Tree().size()).toBe(0);

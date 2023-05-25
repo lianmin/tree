@@ -95,7 +95,6 @@ describe('查找与过滤', () => {
         .map((node) => node.originalData.label)
         .join(''),
     ).toBe('浙江省宁波市');
-    expect(tree.parents().length).toBe(0);
     expect(tree.parents(new TreeNode('newNodeVal')).length).toBe(0);
     expect(tree.parents(tree.root).length).toBe(0);
   });
@@ -122,7 +121,8 @@ describe('查找与过滤', () => {
       '台州市',
     ];
 
-    expect(tree.siblings().length).toBe(0);
+    expect(tree.siblings(undefined).length).toBe(0);
+    expect(tree.siblings(tree.root).length).toBe(0);
     expect(siblings.map((node) => node.originalData.label).join('')).toBe(
       [...leftCities, ...rightCities].join(''),
     );
@@ -130,9 +130,6 @@ describe('查找与过滤', () => {
     expect(rightSiblings.map((node) => node.originalData.label).join('')).toBe(
       rightCities.join(''),
     );
-
-    expect(tree.leftSiblings(undefined).length).toBe(0);
-    expect(tree.rightSiblings(undefined).length).toBe(0);
   });
 
   test('孩子节点', () => {

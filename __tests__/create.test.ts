@@ -36,7 +36,7 @@ describe('初始化', () => {
 
     const nodes = tree.parseDataToNodes(areas);
     // 插入到根节点
-    nodes.map((node) => tree.insertChild(node));
+    nodes.map((node) => tree.insertChild(node, tree.root));
 
     expect(tree.height(tree.root)).toBe(3);
   });
