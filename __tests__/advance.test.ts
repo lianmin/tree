@@ -1,6 +1,7 @@
 import Tree, { TreeNode } from '../src/index';
 import areas from './data/areas';
 import treeData from './data/tree-data';
+import { expect } from '@jest/globals';
 
 describe('高阶用法', () => {
   const tree = new Tree(areas);
@@ -23,6 +24,11 @@ describe('高阶用法', () => {
 
     expect(parents[0].value).toBe('110100');
     expect(parents[1].value).toBe('110000');
+    expect(parents[2].value).toBe(TreeNode.ROOT_VALUE);
+
+    expect(tree.parents(tree.root)).toHaveLength(0);
+    expect(tree.parents(undefined)).toHaveLength(0);
+    expect(tree.parents(tree.root.left)).toHaveLength(1);
   });
 
   test('深度', () => {
