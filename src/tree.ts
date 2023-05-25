@@ -544,26 +544,21 @@ class Tree {
    * @param node
    * @private
    */
-  private _toData(node: TreeNode) {
-    const { children, ...otherData } = node.originalData;
+  private _toData(node: TreeNode): TreeDataItem {
+    const value = node.value;
+    const children = this.children(node).map((node) => this._toData(node));
+    let otherData;
 
-    const rs: any = {
-      ...otherData,
-      value: node.value,
-    };
-
-    if (node.left) {
-      rs.children = [];
-
-      let childNode = node.left;
-
-      while (childNode) {
-        rs.children.push(this._toData(childNode));
-        childNode = childNode.right;
-      }
+    if (node.originalData) {
+      const { children, value, ...others } = node.originalData;
+      otherData = others;
     }
 
-    return rs;
+    return {
+      value,
+      ...(children?.length ? { children } : null),
+      ...otherData,
+    };
   }
 }
 
