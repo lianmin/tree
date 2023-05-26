@@ -1,34 +1,20 @@
 {
   "name": "@xtree/tree",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "JavaScript 下对于树的基本操作，用于便捷处理树形数据的解析、新增、移除和查找等操作",
   "files": [
-    "esm",
-    "es2017",
-    "cjs",
-    "dist",
-    "build"
+    "es"
   ],
-  "main": "./cjs/index.js",
-  "module": "./esm/index.js",
-  "types": "./esm/index.d.ts",
+  "main": "./es/index.js",
+  "module": "./es/index.js",
+  "types": "./es/index.d.ts",
   "exports": {
-    ".": {
-      "es2017": {
-        "types": "./es2017/index.d.ts",
-        "default": "./es2017/index.js"
-      },
-      "default": {
-        "types": "./esm/index.d.ts",
-        "default": "./esm/index.js"
-      }
-    },
-    "./*": "./esm/*"
+    ".": "./es/index.js",
+    "./*": "./es/*"
   },
   "scripts": {
-    "start": "ice-pkg start",
-    "build": "ice-pkg build",
-    "prepublishOnly": "npm run build",
+    "build": "tsc",
+    "prepublishOnly": "npm version patch --no-git-tag-version && npm run build",
     "test": "jest",
     "doc": "api-extractor run --local "
   },

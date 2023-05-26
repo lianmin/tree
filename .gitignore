@@ -13,6 +13,7 @@ cjs/
 esm/
 es2017/
 temp/
+es/
 
 # misc
 .idea/
