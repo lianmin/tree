@@ -509,7 +509,9 @@ class Tree {
    * ]);
    *
    * const arr = tree.flatten(tree.root);
-   * // result: [{value:1, parentValue: undefined},{value: '1-1', parentValue:'1'},{value:'1-1-1', parentValue:'1-1}]
+   *
+   * // result:
+   * [{ value: 1, parentValue: undefined }, { value: '1-1', parentValue: '1' }, { value: '1-1-1', parentValue: '1-1}]
    */
   flatten(node?: TreeNode, parentPropName: string = 'parentValue') {
     const rs: any = [];
@@ -537,9 +539,19 @@ class Tree {
    * tree.insertChild(node1, tree.root);
    * tree.insertChild(node2, node1);
    *
-   *
    * tree.toData();
-   * // [{label:'1',value:'1',parentValue: undefined}, {label:'1-1', value:'1-1', parentValue:'1'}]
+   *
+   * // result:
+   * [
+   *   {
+   *     value: '1',
+   *     originalData: { label: 1 },
+   *     children: [
+   *       {
+   *         value: '1-1', originData: { label: '1-1' }
+   *       }]
+   *   }
+   * ];
    *
    */
   toData() {
