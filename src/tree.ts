@@ -1,5 +1,5 @@
 import TreeNode from './tree-node';
-import { ExtendTreeDataItem, TreeData, TreeDataItem } from './typings';
+import { ExtendedTreeDataItem, TreeData, TreeDataItem } from './typings';
 
 /**
  * @interface
@@ -562,22 +562,27 @@ class Tree {
    * 对数据进行自定义格式化输出
    * @param callback
    */
-  format<T = any>(callback: (data: ExtendTreeDataItem<any>) => T) {
-    return this.children(this.root).map((node) => callback(this._format(node)));
+  format(callback: (data: ExtendedTreeDataItem<any>) => any) {
+    return this.children(this.root).map((node) => this._format(node, callback));
   }
 
   /**
    * 处理单个 node 的数据转换
    * @param node
+   * @param callback
    * @private
    */
-  private _format(node: TreeNode): ExtendTreeDataItem<any> {
-    const children = this.children(node).map((node) => this._format(node));
-    return {
+  private _format(
+    node: TreeNode,
+    callback: (data: ExtendedTreeDataItem<any>) => any,
+  ): ExtendedTreeDataItem<any> {
+    const children = this.children(node).map((node) => this._format(node, callback));
+
+    return callback({
       value: node.value,
       ...(children?.length ? { children } : null),
       originalData: node.originalData,
-    };
+    });
   }
 }
 

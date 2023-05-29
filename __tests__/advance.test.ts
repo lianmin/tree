@@ -100,10 +100,14 @@ describe('高阶用法', () => {
     tree.remove(node);
 
     const data = tree.format((data) => {
-      return {
-        id: data.value,
-        child: data.children,
-      };
+      const ret: any = {};
+
+      ret.id = data.value;
+      if (data.children) {
+        ret.child = data.children;
+      }
+
+      return ret;
     });
 
     expect(data[0]).toHaveProperty('id');

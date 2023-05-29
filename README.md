@@ -202,14 +202,14 @@ const arr = tree.flatten(tree.root);
 
 返回 `TreeData` 类型嵌套数据
 
-#### format(callback: `(data: ExtendTreeDataItem<any>)=>any`)
+#### format(callback: `(data: ExtendedTreeDataItem<any>)=>any`)
 
 自定义格式化数据, data 的格式为：
 
 ```ts
-interface ExtendTreeDataItem<T> {
+interface ExtendedTreeDataItem<T> {
   value: T;
-  children?: ExtendTreeDataItem<T>[];
+  children?: ExtendedTreeDataItem<T>[];
   originalData?: {
     [key: string]: any;
   };

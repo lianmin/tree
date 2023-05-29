@@ -31,7 +31,6 @@ class Tree {
   toData(): ExtendTreeDataItem<any>[];
   traverse(callback: TraverseFn, first?: 'depth' | 'breadth'): void;
 }
-
 export default Tree;
 
 export { TreeData };
