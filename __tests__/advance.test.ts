@@ -99,12 +99,13 @@ describe('高阶用法', () => {
     tree.insertChild(new TreeNode('4', { label: '4', value: 4 }), node.parent);
     tree.remove(node);
 
-    const data = tree.toData((data) => {
+    const data = tree.format((data) => {
       return {
         id: data.value,
         child: data.children,
       };
     });
+
     expect(data[0]).toHaveProperty('id');
     expect(data[0]).toHaveProperty('child');
   });

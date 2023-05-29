@@ -12,11 +12,14 @@ export interface TreeDataItem {
  */
 export type TreeData = TreeDataItem[];
 
-export type ExtendTreeDataItem<T> = T & {
+/**
+ * 扩展的数据节点
+ */
+export interface ExtendTreeDataItem<T> {
   value: T;
   children?: ExtendTreeDataItem<T>[];
   originalData?: {
     [key: string]: any;
   };
   [key: string]: any;
-};
+}

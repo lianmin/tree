@@ -48,57 +48,7 @@ tree.insertChild(new TreeNode('2', { label: '2' }), tree.root);
 
 ## API
 
-```ts
-// @public
-class Tree {
-  constructor(initData?: TreeData);
-  children(node: TreeNode): TreeNode[];
-  clear(): void;
-  depth(node: TreeNode): number;
-  filter(predicate: PredicateFn): TreeNode[];
-  find(value: PredicateFn | any): TreeNode | undefined;
-  flatten(node?: TreeNode, parentPropName?: string): any;
-  height(node: TreeNode): number;
-  insertAfter(node: TreeNode, siblingNode: TreeNode): void;
-  insertBefore(node: TreeNode, siblingNode: TreeNode): void;
-  insertChild(node: TreeNode, parentNode?: TreeNode, tailing?: boolean): void;
-  get isEmpty(): boolean;
-  isFirstChild(node: TreeNode): boolean;
-  leftSiblings(node?: TreeNode): TreeNode[];
-  parents(node?: TreeNode): TreeNode[];
-  parseDataToNode(data: TreeDataItem): TreeNode;
-  parseDataToNodes(data: TreeData): TreeNode[];
-  remove(node: TreeNode): void;
-  rightSiblings(node: TreeNode): TreeNode[];
-  root: TreeNode;
-  siblings(node?: TreeNode, pos?: 'left' | 'right' | 'all'): TreeNode[];
-  size(node?: TreeNode): number;
-  toData(): any;
-  traverse(callback: TraverseFn, first?: 'depth' | 'breadth'): void;
-}
-export default Tree;
-
-export type TreeData = TreeDataItem[];
-
-export interface TreeDataItem {
-  [key: string]: any;
-  children?: TreeDataItem[];
-  value: any;
-}
-
-// @public
-export class TreeNode {
-  constructor(value: any, originalData?: any);
-  get isLeaf(): boolean;
-  get isRoot(): boolean;
-  left?: TreeNode;
-  originalData: any;
-  parent?: TreeNode;
-  right?: TreeNode;
-  static readonly ROOT_VALUE = '__ROOT__';
-  value: any;
-}
-```
+[查看接口定义](./API.md)
 
 ### Tree
 
@@ -252,6 +202,48 @@ const arr = tree.flatten(tree.root);
 
 返回 `TreeData` 类型嵌套数据
 
+#### format(callback: `(data: ExtendTreeDataItem<any>)=>any`)
+
+自定义格式化数据, data 的格式为：
+
+```ts
+interface ExtendTreeDataItem<T> {
+  value: T;
+  children?: ExtendTreeDataItem<T>[];
+  originalData?: {
+    [key: string]: any;
+  };
+  [key: string]: any;
+}
+```
+
+```ts
+const tree = new Tree([
+  {
+    value: '1',
+    children: [
+      {
+        value: '1-1',
+        children: [
+          {
+            value: '1-1-1',
+          },
+        ],
+      },
+    ],
+  },
+]);
+
+// 自定义树形嵌套结构
+tree.format((data) => {
+  return {
+    id: data.value,
+    _children: data.children,
+    data: data.originalData,
+  };
+});
+```
+
 ### TreeNode
 
 #### constructor(`value`, `originalData`?)
@@ -265,5 +257,5 @@ const node = new TreeNode('node1', {});
 
 node.isRoot; // 判定是否为 node.value === TreeNode.ROOT_VALUE
 node.isLeaf; // 判定节点是否为叶子结点
-node.originalData; // 获取节点绑定的 originalData 数据
+node.originalData; // 获取节点绑定的原始数据
 ```

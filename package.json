@@ -1,6 +1,6 @@
 {
   "name": "@xtree/tree",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "JavaScript 下对于树的基本操作，用于便捷处理树形数据的解析、新增、移除和查找等操作",
   "files": [
     "es"
