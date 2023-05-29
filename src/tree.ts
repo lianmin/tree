@@ -371,6 +371,10 @@ class Tree {
    * @param siblingNode 兄弟节点
    */
   insertBefore(node: TreeNode, siblingNode: TreeNode) {
+    // 根节点，不支持插入
+    if (siblingNode.isRoot) {
+      throw new Error('cannot insert a sibling node to root Node');
+    }
     const leftNode = this.siblings(siblingNode).find((node) => node.right === siblingNode);
 
     node.parent = siblingNode.parent;
@@ -392,6 +396,11 @@ class Tree {
    * @param siblingNode 兄弟节点
    */
   insertAfter(node: TreeNode, siblingNode: TreeNode) {
+    // 跟节点，不支持插入
+    if (siblingNode.isRoot) {
+      throw new Error('cannot insert a sibling node to root Node');
+    }
+
     const right = siblingNode.right;
     siblingNode.right = node;
     node.parent = siblingNode.parent;
@@ -406,15 +415,15 @@ class Tree {
    *
    * @param node 新节点
    * @param parentNode 父节点
-   * @param pos 默认出入位置，默认为从头部插入，如果要从尾部插入，可以设置 pos='trailing'
+   * @param pos 插入到子节点位置，默认为从尾部插入，如果要从头部插入，可以设置 pos='leading'
    *
    * @example
    *
    * tree.insertChild(node, parentNode);
-   * tree.insertChild(node, parentNode, false);
+   * tree.insertChild(node, parentNode, 'leading');
    *
    */
-  insertChild(node: TreeNode, parentNode: TreeNode, pos?: 'leading' | 'trailing') {
+  insertChild(node: TreeNode, parentNode: TreeNode, pos: 'leading' | 'trailing' = 'trailing') {
     const pNode = parentNode || this.root;
 
     if (node) {
@@ -423,7 +432,7 @@ class Tree {
       node.parent = parentNode;
 
       if (pos === 'trailing' && children.length) {
-        this.insertAfter(node, children[children.length - 1]);
+        this.insertAfter(node, children.at(-1));
       } else {
         pNode.left = node;
         node.right = left;
@@ -547,17 +556,11 @@ class Tree {
   private _toData(node: TreeNode): TreeDataItem {
     const value = node.value;
     const children = this.children(node).map((node) => this._toData(node));
-    let otherData;
-
-    if (node.originalData) {
-      const { children, value, ...others } = node.originalData;
-      otherData = others;
-    }
 
     return {
       value,
       ...(children?.length ? { children } : null),
-      ...otherData,
+      ...(node.originalData ? { originalData: node.originalData } : null),
     };
   }
 }

@@ -81,7 +81,7 @@ describe('高阶用法', () => {
     const tree1 = new Tree(treeData);
     const node = tree1.find('2');
 
-    tree1.insertChild(new TreeNode('4', { label: '4' }), node.parent);
+    tree1.insertChild(new TreeNode('4', { label: '4', value: 4 }), node.parent);
     tree1.remove(node);
 
     const data = tree1.toData();

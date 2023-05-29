@@ -60,6 +60,34 @@ describe('修改树', () => {
     tree.remove(newNode);
   });
 
+  test('叶子结点插入', () => {
+    const emptyTree = new Tree([]);
+    const pNode = new TreeNode('1', { label: '1', value: '1' });
+
+    try {
+      emptyTree.insertAfter(new TreeNode('1'), emptyTree.root);
+    } catch (e) {
+      expect(e.message).toMatch(/cannot/);
+    }
+
+    try {
+      emptyTree.insertBefore(new TreeNode('1'), emptyTree.root);
+    } catch (e) {
+      expect(e.message).toMatch(/cannot/);
+    }
+
+    emptyTree.insertChild(pNode, emptyTree.root);
+    expect(emptyTree.root.left.value).toBe('1');
+
+    emptyTree.remove(pNode);
+
+    emptyTree.insertChild(pNode, emptyTree.root, 'leading');
+    expect(emptyTree.root.left.value).toBe('1');
+
+    emptyTree.insertBefore(new TreeNode('2', { value: '2', label: '2' }), pNode);
+    expect(emptyTree.root.left.value).toBe('2');
+  });
+
   test('移除节点', () => {
     // 宁波市
     const node = tree.find('330200');
