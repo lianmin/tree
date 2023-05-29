@@ -24,10 +24,7 @@
     "data-source",
     "tree-parse"
   ],
-  "dependencies": {
-    "@ice/jsx-runtime": "^0.2.0",
-    "@swc/helpers": "^0.5.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@alifd/layout": "^2.0.12",
     "@alifd/next": "^1.26.18",

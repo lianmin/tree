@@ -91,4 +91,21 @@ describe('高阶用法', () => {
     const emptyData = tree1.toData();
     expect(emptyData.length).toBe(0);
   });
+
+  test('自定义输出树状结构', () => {
+    const tree = new Tree(treeData);
+    const node = tree.find('2');
+
+    tree.insertChild(new TreeNode('4', { label: '4', value: 4 }), node.parent);
+    tree.remove(node);
+
+    const data = tree.toData((data) => {
+      return {
+        id: data.value,
+        child: data.children,
+      };
+    });
+    expect(data[0]).toHaveProperty('id');
+    expect(data[0]).toHaveProperty('child');
+  });
 });

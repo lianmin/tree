@@ -1,5 +1,5 @@
 import TreeNode from './tree-node';
-import { TreeData, TreeDataItem } from './typings';
+import { ExtendTreeDataItem, TreeData, TreeDataItem } from './typings';
 
 /**
  * @interface
@@ -9,6 +9,7 @@ type TraverseFn = (node: TreeNode, cancel?: () => void) => void;
  * @interface
  */
 type PredicateFn = (node: TreeNode) => boolean;
+type DataConvertFn = (data: ExtendTreeDataItem<any>) => any;
 
 /**
  * Tree
@@ -554,26 +555,35 @@ class Tree {
    * ];
    *
    */
-  toData() {
-    const n = this._toData(this.root);
+  toData(callback?: DataConvertFn) {
+    const children = this.children(this.root);
+    const datas = children.map((node) => this._toData(node, callback));
 
-    return n?.children || [];
+    if (typeof callback === 'undefined') {
+      return datas as ExtendTreeDataItem<any>;
+    } else {
+      return datas;
+    }
   }
 
   /**
    * 单个节点还原成层级结构数据
    * @param node
+   * @param callback
    * @private
    */
-  private _toData(node: TreeNode): TreeDataItem {
+  private _toData(node: TreeNode, callback: DataConvertFn) {
     const value = node.value;
-    const children = this.children(node).map((node) => this._toData(node));
+    const originalData = node.originalData;
+    const children = this.children(node).map((node) => this._toData(node, callback));
 
-    return {
+    const data: ExtendTreeDataItem<any> = {
       value,
-      ...(children?.length ? { children } : null),
-      ...(node.originalData ? { originalData: node.originalData } : null),
+      children,
+      originalData,
     };
+
+    return callback ? callback(data) : data;
   }
 }
 

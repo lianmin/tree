@@ -1,8 +1,6 @@
 /// <reference types="@ice/pkg/types" />
 
-/**
- * @interface
- */
+// 高阶定义的 TreeDataItem
 export interface TreeDataItem {
   value: any;
   children?: TreeDataItem[];
@@ -13,3 +11,12 @@ export interface TreeDataItem {
  * @interface
  */
 export type TreeData = TreeDataItem[];
+
+export type ExtendTreeDataItem<T> = T & {
+  value: T;
+  children?: ExtendTreeDataItem<T>[];
+  originalData?: {
+    [key: string]: any;
+  };
+  [key: string]: any;
+};
