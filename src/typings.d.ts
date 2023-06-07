@@ -1,25 +1,11 @@
 /// <reference types="@ice/pkg/types" />
 
-// 高阶定义的 TreeDataItem
-export interface TreeDataItem {
-  value: any;
-  children?: TreeDataItem[];
-  [key: string]: any;
-}
+export type ValueType = string | number | '__ROOT__';
 
 /**
- * @interface
+ * 基础的数据格式， T=data 基础数据类型， VK-值属性名，CK - 孩子节点属性名
  */
-export type TreeData = TreeDataItem[];
-
-/**
- * 扩展的数据节点
- */
-export interface ExtendedTreeDataItem<T> {
-  value: T;
-  children?: ExtendedTreeDataItem<T>[];
-  originalData?: {
-    [key: string]: any;
+export type TreeDataType<T, VK extends string, CK extends string> = T &
+  Record<VK, ValueType> & {
+    [K in CK]?: TreeDataType<T, VK, CK>[];
   };
-  [key: string]: any;
-}

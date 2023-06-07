@@ -3,7 +3,7 @@ import areas from './data/areas';
 
 // 节点操作
 describe('初始化', () => {
-  const tree = new Tree();
+  const tree = new Tree<{ label: string; value: string }>();
 
   test('节点操作', () => {
     try {
@@ -31,12 +31,12 @@ describe('初始化', () => {
   });
 
   test('插入节点', () => {
-    const errorNodes = tree.parseDataToNodes(undefined);
-    expect(errorNodes.length).toBe(0);
+    tree.parse([]);
+    tree.parse(undefined);
 
-    const nodes = tree.parseDataToNodes(areas);
-    // 插入到根节点
-    nodes.map((node) => tree.insertChild(node, tree.root));
+    expect(tree.size()).toBe(0);
+
+    tree.parse(areas);
 
     expect(tree.height(tree.root)).toBe(3);
   });
@@ -50,5 +50,8 @@ describe('初始化', () => {
 
     expect(arr.findIndex((area: any) => area.value === '330110')).toBeGreaterThan(0);
     expect(arr.length).toBe(tree.size());
+
+    expect(new Tree().flatten()).toHaveLength(0);
+    expect(new Tree().flatten(undefined)).toHaveLength(0);
   });
 });

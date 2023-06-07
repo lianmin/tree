@@ -4,7 +4,8 @@ import treeData from './data/tree-data';
 import { expect } from '@jest/globals';
 
 describe('高阶用法', () => {
-  const tree = new Tree(areas);
+  const tree = new Tree<{ label: string; value: string }>();
+  tree.parse(areas);
 
   test('查找任意节点', () => {
     const node = tree.find('110102');
@@ -67,7 +68,7 @@ describe('高阶用法', () => {
   });
 
   test('大小判断', () => {
-    const tree1 = new Tree([]);
+    const tree1 = new Tree();
 
     expect(tree1.size()).toBe(0);
 
@@ -78,7 +79,9 @@ describe('高阶用法', () => {
   });
 
   test('输出树状结构', () => {
-    const tree1 = new Tree(treeData);
+    const tree1 = new Tree();
+    tree1.parse(treeData);
+
     const node = tree1.find('2');
 
     tree1.insertChild(new TreeNode('4', { label: '4', value: 4 }), node.parent);
@@ -93,18 +96,22 @@ describe('高阶用法', () => {
   });
 
   test('自定义输出树状结构', () => {
-    const tree = new Tree(treeData);
+    const tree = new Tree();
+    tree.parse(treeData);
+
     const node = tree.find('2');
 
     tree.insertChild(new TreeNode('4', { label: '4', value: 4 }), node.parent);
     tree.remove(node);
 
-    const data = tree.format((data) => {
-      const ret: any = {};
+    const data = tree.format<any>((node, children) => {
+      const ret: any = {
+        id: node.value,
+        label: node.originalData.label,
+      };
 
-      ret.id = data.value;
-      if (data.children) {
-        ret.child = data.children;
+      if (children) {
+        ret.child = children;
       }
 
       return ret;
@@ -112,5 +119,7 @@ describe('高阶用法', () => {
 
     expect(data[0]).toHaveProperty('id');
     expect(data[0]).toHaveProperty('child');
+    expect(data[0]).toHaveProperty('label');
+    expect(data[0].child).toHaveLength(3);
   });
 });

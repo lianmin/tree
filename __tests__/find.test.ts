@@ -4,7 +4,8 @@ import treeData from './data/tree-data';
 import { expect } from '@jest/globals';
 
 describe('查找与过滤', () => {
-  const tree = new Tree(areas);
+  const tree = new Tree<{ label: string; value: string }>();
+  tree.parse(areas);
 
   test('遍历所有叶子节点', () => {
     const arr: any = [];
@@ -28,9 +29,13 @@ describe('查找与过滤', () => {
   });
 
   test('遍历顺序', () => {
-    const tree1 = new Tree(treeData);
-    const arr1: string[] = [];
-    const arr2: string[] = [];
+    const tree1 = new Tree<{
+      label: string;
+      value: string;
+    }>();
+    tree1.parse(treeData);
+    const arr1 = [];
+    const arr2 = [];
 
     tree1.traverse((node) => {
       arr1.push(node.value);
@@ -45,7 +50,9 @@ describe('查找与过滤', () => {
   });
 
   test('遍历终止', () => {
-    const tree1 = new Tree(treeData);
+    const tree1 = new Tree();
+    tree1.parse(treeData);
+
     let counter1 = 0;
     let counter2 = 0;
 
@@ -68,7 +75,7 @@ describe('查找与过滤', () => {
   });
 
   test('过滤深度为 1 的节点', () => {
-    const arr = tree.filter((node: TreeNode) => tree.depth(node) === 1);
+    const arr = tree.filter((node) => tree.depth(node) === 1);
     expect(arr.length).toBe(areas.length);
   });
 
@@ -92,6 +99,7 @@ describe('查找与过滤', () => {
 
     expect(
       parents
+        .filter((node) => !node.isRoot)
         .reverse()
         .map((node) => node.originalData.label)
         .join(''),
@@ -133,6 +141,18 @@ describe('查找与过滤', () => {
     );
   });
 
+  test('异常兄弟节点', () => {
+    const emptyTree = new Tree();
+
+    const leftNodes = emptyTree.siblings(undefined, 'all');
+    const rightNodes = emptyTree.siblings(undefined, 'left');
+    const siblingNodes = emptyTree.siblings(undefined, 'right');
+
+    expect(leftNodes).toHaveLength(0);
+    expect(rightNodes).toHaveLength(0);
+    expect(siblingNodes).toHaveLength(0);
+  });
+
   test('孩子节点', () => {
     // 浙江省宁波市
     const node = tree.find('330200');
@@ -142,7 +162,7 @@ describe('查找与过滤', () => {
     expect(tree.children(new TreeNode('singleNode')).length).toBe(0);
     expect(children.length).toBe(11);
 
-    tree.insertAfter(new TreeNode('-1', { label: '新城市' }), children[0]);
+    tree.insertAfter(new TreeNode<any>('-1', { label: '新城市' }), children[0]);
 
     const newChildren = tree.children(node);
 

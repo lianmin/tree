@@ -6,6 +6,7 @@ export default defineJestConfig(pkgService, {
   collectCoverage: true,
   coverageDirectory: 'coverage',
   testPathIgnorePatterns: ['node_modules', '__tests__/data/'],
+  collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}'],
   transform: {
     '^.+\\.(t|j)sx?$': [
       '@swc/jest',

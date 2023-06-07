@@ -14,10 +14,16 @@ $ npm i @xtree/tree --save
 
 ## 使用示例
 
-```jsx
+```typescript
 import Tree, { TreeNode } from '@xtree/tree';
 
-const tree = new Tree([
+// 初始化 Tree 配置。
+const tree = new Tree<{ label: string; value: string }, 'value', 'children'>({
+  valuePropName: 'value',
+  childrenPropName: 'children',
+});
+
+tree.parse([
   {
     label: '1',
     value: '1',
@@ -48,26 +54,74 @@ tree.insertChild(new TreeNode('2', { label: '2' }), tree.root);
 
 ## API
 
-[查看接口定义](./API.md)
+[查看类定义](./API.md)
 
 ### Tree
 
-#### **constructor**(`initData`?: `TreeData`)
+#### **constructor<T, KV, KC>**(`config`)
 
-基于 initData 构建新的树
+基础 config 构建一颗空树
 
-```jsx
+`config.childrenPropName` 待传入数据的孩子节点属性名
+`config.valuePropName` 待传入数据的值域属性名
+
+```typescript
+// 精简写法， 默认数据是  [{value: string; children:[...]}] 格式的
 const tree1 = new Tree();
-const tree2 = new Tree([]);
-const tree3 = new Tree([
+tree1.prase([
   {
-    value: '',
+    label: 'node1',
+    value: '1',
     children: [
-      /*...*/
+      {
+        label: 'node1-1',
+        value: '1-1',
+      },
     ],
   },
 ]);
+
+// 指定传入数据的值和孩子节点属性名
+interface EmployeeData {
+  id: string;
+  name: string;
+  employee?: EmployeeData[];
+}
+
+const tree3 = new Tree<EmployeeData, 'id', 'employee'>({
+  valuePropName: 'id',
+  childrenPropName: 'employees',
+});
+
+tree3.parse([
+  {
+    id: '1',
+    name: '张三',
+    employee: [
+      {
+        id: '2',
+        name: '李四',
+      },
+      {
+        id: '3',
+        name: '王五',
+      },
+    ],
+  },
+  {
+    id: '4',
+    name: '赵六',
+  },
+]);
 ```
+
+#### parse(`data`: `TreeDataType<T, KV, KC>`) 解析数据到树中
+
+基于构造函数配置的类型，解析树形结构的数据。
+
+#### hash
+
+树状态的唯一标记，每次对节点进行修改后，`hash` 值会更新
 
 #### get **isEmpty()**
 
@@ -79,7 +133,7 @@ tree.isEmpty; // boolean
 
 #### **size**(`node`: `TreeNode`)
 
-返回指定 node 的节点数，若为传入，默认返回根节点的节点数
+返回指定 node 的节点数，若未传入，返回根节点的节点数
 
 #### **traverse**(`callback`: `(node, cancel)=>void`, first?: 'depth'|'breadth')
 
@@ -200,25 +254,17 @@ const arr = tree.flatten(tree.root);
 
 #### toData()
 
-返回 `TreeData` 类型嵌套数据
+返回 `TreeDataType<T,KV,KC>` 类型树形结构数据(适用于在对树的节点进行操作后，获取最新的数据)
 
-#### format(callback: `(data: ExtendedTreeDataItem<any>)=>any`)
+#### format(callback: `(node, children)=>any`)
 
-自定义格式化数据, data 的格式为：
+自定义格式化数据.
 
-```ts
-interface ExtendedTreeDataItem<T> {
-  value: T;
-  children?: ExtendedTreeDataItem<T>[];
-  originalData?: {
-    [key: string]: any;
-  };
-  [key: string]: any;
-}
-```
+> 注意 `children` 参数为格式化后节点的 children 数据.
 
 ```ts
-const tree = new Tree([
+const tree = new Tree();
+tree.parse([
   {
     value: '1',
     children: [
@@ -235,18 +281,19 @@ const tree = new Tree([
 ]);
 
 // 自定义树形嵌套结构
-tree.format((data) => {
+tree.format((node, children) => {
   return {
-    id: data.value,
-    _children: data.children,
+    id: node.value,
+    ...(children.length ? children : null),
     data: data.originalData,
+    depth: tree.depth(node),
   };
 });
 ```
 
 ### TreeNode
 
-#### constructor(`value`, `originalData`?)
+#### constructor(`value`, `originalData`)
 
 创建树节点
 

@@ -3,7 +3,8 @@ import areas from './data/areas';
 
 describe('修改树', () => {
   // 大数据量初始化
-  const tree = new Tree(areas);
+  const tree = new Tree();
+  tree.parse(areas);
 
   test('插入新孩子节点', () => {
     // 杭州市
@@ -61,7 +62,7 @@ describe('修改树', () => {
   });
 
   test('叶子结点插入', () => {
-    const emptyTree = new Tree([]);
+    const emptyTree = new Tree();
     const pNode = new TreeNode('1', { label: '1', value: '1' });
 
     try {
@@ -113,12 +114,37 @@ describe('修改树', () => {
     expect(tree.find('330101')).toBe(undefined);
     expect(tree.find('330100')).toBe(undefined);
 
-    expect(tree.remove(tree.root)).toBe(undefined);
-    expect(tree.remove(undefined)).toBe(undefined);
+    expect(tree.remove(tree.root)).toBe(false);
+    expect(tree.remove(undefined)).toBe(false);
   });
 
   test('清空树', () => {
     tree.clear();
     expect(tree.size()).toBe(0);
+  });
+
+  test('标识', () => {
+    const tree1 = new Tree();
+    const hash1 = tree1.hash;
+
+    tree1.parse(areas);
+
+    const hash2 = tree1.hash;
+
+    expect(hash1).not.toBe(hash2);
+
+    tree1.insertAfter(new TreeNode('-1', { value: '新节点' }), tree1.find('110000'));
+
+    const hash3 = tree1.hash;
+
+    expect(hash2).not.toEqual(hash3);
+  });
+
+  test('插入子节点-异常', () => {
+    const newTree = new Tree();
+
+    newTree.insertChild(new TreeNode('-1', { label: '新节点' }));
+
+    expect(newTree.root.left.value).toBe('-1');
   });
 });
