@@ -1,6 +1,6 @@
 {
   "name": "@xtree/tree",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "JavaScript 下对于树的基本操作，用于便捷处理树形数据的解析、新增、移除和查找等操作",
   "files": [
     "es"
@@ -42,9 +42,6 @@
     "jest-html-reporter": "^3.9.0",
     "prettier": "^2.8.8",
     "ts-jest": "^29.1.0"
-  },
-  "peerDependencies": {
-    "react": "^17 || ^18"
   },
   "publishConfig": {
     "access": "public"
