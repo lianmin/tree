@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@applint/spec": "^1.2.3",
-    "@ice/pkg": "^1.0.0",
+    "@ice/pkg": "^1.6.0",
     "@jest/globals": "^29.5.0",
     "@microsoft/api-extractor": "^7.34.9",
     "@swc/jest": "^0.2.26",
